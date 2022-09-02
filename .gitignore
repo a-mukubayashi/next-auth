@@ -109,3 +109,6 @@ dist
 .env.prod
 
 .DS_Store
+
+# testing
+cypress.env.json
