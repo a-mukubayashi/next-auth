@@ -26,18 +26,21 @@
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
 
-export type Provider = "github";
+export type Provider = "github" | "google";
 
 interface LoginTaskResult {
   cookies: any;
 }
-/* eslint-enable @typescript-eslint/no-explicit-any */
 
 Cypress.Commands.add("login", (provider: Provider) => {
   const credentials = {
     github: {
       username: Cypress.env("GITHUB_USER"),
       password: Cypress.env("GITHUB_PW"),
+    },
+    google: {
+      username: Cypress.env("GOOGLE_USER"),
+      password: Cypress.env("GOOGLE_PW"),
     },
   };
 
@@ -59,6 +62,7 @@ Cypress.Commands.add("login", (provider: Provider) => {
   };
 
   const taskNames = {
+    google: "GoogleSocialLogin",
     github: "GitHubSocialLogin",
   };
   const taskName = taskNames[provider];
@@ -66,8 +70,8 @@ Cypress.Commands.add("login", (provider: Provider) => {
   return cy.task(taskName, socialLoginOptions).then((result) => {
     const { cookies } = result as LoginTaskResult;
     cy.clearCookie(cookieName);
-    // cy.clearCookie('next-auth.callback-url')
-    // cy.clearCookie('next-auth.csrf-token')
+    // cy.clearCookie("next-auth.callback-url");
+    // cy.clearCookie("next-auth.csrf-token");
 
     const cookie = cookies.filter((c: any) => c.name === cookieName).pop();
     if (cookie) {
