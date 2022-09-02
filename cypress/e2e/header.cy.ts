@@ -13,3 +13,4 @@ describe("Header", () => {
     cy.get("button.button").contains("Sign in with GitHub");
   });
 });
+export {};

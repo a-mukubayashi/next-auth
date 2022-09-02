@@ -36,3 +36,4 @@ describe("Google login", function () {
     // googleButton.click();
   });
 });
+export {};
